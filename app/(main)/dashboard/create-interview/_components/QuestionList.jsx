@@ -1,15 +1,20 @@
+
+import { v4 as uuidv4 } from 'uuid';
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { Loader2Icon } from "lucide-react";
+import { Loader2, Loader2Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import QuestionListComponent from "./QuestionListComponent";
+import { supabase } from "@/services/supabaseClient";
+import { useUser } from "@/context/UserDetailContext";
 
 export default function QuestionList({ formData }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saveLoading,setSaveLoading]=useState(false);
   const [questionList,setQuestionList]=useState()
   const hasFetched = useRef(false); 
-
+const {user}=useUser();
   useEffect(() => {
     if (formData && !hasFetched.current&&!loading) {
       hasFetched.current = true; 
@@ -36,8 +41,32 @@ console.log('check');
       console.log("hello");
     }
   };
-  const onFinish=  ()=>{
+  const onFinish=  async()=>{
+    setLoading(true);
+    const interview_id=uuidv4();
+    console.log('hello from on finish');
+    console.log(formData);
 
+    console.log(questionList);
+        console.log(typeof questionList);
+    console.log(user?.email);
+    console.log(interview_id);
+    console.log(typeof formData?.type);
+const{data,error}=await supabase
+.from('interviews')
+.insert([
+    { ...formData,
+        questionList:questionList,
+        userEmail:user?.email,
+        interview_id:interview_id
+
+     },
+
+  ])
+  .select()
+setSaveLoading(false);
+
+  console.log('interviews');    
   }
 
 return (
@@ -57,7 +86,9 @@ return (
    <div>
     <QuestionListComponent questionList={questionList}></QuestionListComponent>
   <div className="flex justify-end mt-10 ">
-        <Button onClick={()=>onFinish()}>Finish</Button>
+        <Button onClick={()=>onFinish()} disabled={saveLoading}>
+            {saveLoading &&<Loader2 className='animate-spin'></Loader2>}
+            Finish</Button>
     </div>
 
    </div>
