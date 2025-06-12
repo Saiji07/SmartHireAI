@@ -9,7 +9,7 @@ import QuestionListComponent from "./QuestionListComponent";
 import { supabase } from "@/services/supabaseClient";
 import { useUser } from "@/context/UserDetailContext";
 
-export default function QuestionList({ formData }) {
+export default function QuestionList({ formData,onCreateLink }) {
   const [loading, setLoading] = useState(true);
   const [saveLoading,setSaveLoading]=useState(false);
   const [questionList,setQuestionList]=useState()
@@ -66,6 +66,7 @@ const{data,error}=await supabase
   .select()
 setSaveLoading(false);
 
+onCreateLink(interview_id)
   console.log('interviews');    
   }
 
@@ -88,7 +89,7 @@ return (
   <div className="flex justify-end mt-10 ">
         <Button onClick={()=>onFinish()} disabled={saveLoading}>
             {saveLoading &&<Loader2 className='animate-spin'></Loader2>}
-            Finish</Button>
+            Create Interview Link & Finish</Button>
     </div>
 
    </div>
