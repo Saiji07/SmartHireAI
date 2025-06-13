@@ -10,7 +10,7 @@ import { supabase } from "@/services/supabaseClient";
 import { useUser } from "@/context/UserDetailContext";
 
 export default function QuestionList({ formData,onCreateLink }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [saveLoading,setSaveLoading]=useState(false);
   const [questionList,setQuestionList]=useState()
   const hasFetched = useRef(false); 
@@ -18,6 +18,7 @@ const {user}=useUser();
   useEffect(() => {
     if (formData && !hasFetched.current&&!loading) {
       hasFetched.current = true; 
+      console.log("generate start");
       GenerateQuestionList();
     }
   }, [formData]);

@@ -2,12 +2,33 @@
 import { Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Camera, Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useUser } from "@/context/UserDetailContext";
+import InterviewCard from "./InterviewCard";
+import { toast } from "sonner";
 
 export default function LatestInterviewsList()
 {
     const [interviewList,setInterviewList]=useState([]);
+    const {user}=useUser();
+    useEffect( ()=>{
+user&& GetInterviewList();
+    },[user])
+    const GetInterviewList=async()=>{
+        
+let { data: interviews, error } = await supabase
+  .from('interviews')
+  .select('*')
+  .eq('userEmail',user?.email)
+  .order('id',{ascending:false})
+  .limit(6);
+  console.log(interviews);
+  setInterviewList(interviews);
+
+          
+    }
+ 
     return(
         <div className="my-5">
         <h2 className="font-bold text-2xl">Previously Created Interviews</h2>
@@ -16,6 +37,13 @@ export default function LatestInterviewsList()
 <h2>You Don't Have Any Interview Created</h2>
 <Button className='mt-5 rounded-xl'><Plus/> Create New Interview</Button>
             </Link>}
+           {interviewList && 
+           <div className="grid grid-cols-2 mt-5 xl:grid-cols-3 gap-5 ">
+            {interviewList.map((interview,index)=>(
+                <InterviewCard interview={interview} key={index}></InterviewCard>
+            ))}
+            </div>
+           } 
            
         </div>
     );
