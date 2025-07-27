@@ -50,7 +50,7 @@ export default function AuthClientPage() {
                         className='w-[400px] h-[250px] rounded 2-xl'
                     />
                     <h2 className='text-2xl font-bold text-center mt-5'>Welcome To SmartHire AI </h2>
-                    <p className='text-gray-500 text-center'>Sign in With Google Authentication </p>
+                    <p className='text-gray-500 text-center'>Sign in With Google </p>
                     <Button onClick={signInWithGoogle} className='mt-7 w-full'>Login With Google</Button>
                 </div>
             </div>
