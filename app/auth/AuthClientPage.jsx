@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { createBrowserClient } from '@supabase/ssr';
 import { useUser } from '@/context/UserDetailContext';
 
-// Note: The component name is updated for clarity
+
 export default function AuthClientPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
