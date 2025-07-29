@@ -1,4 +1,4 @@
-// components/create-interview/page.jsx (or whatever your CreateInterview path is)
+
 "use client"
 import { Toaster } from "@/components/ui/sonner"
 import { Progress } from "@/components/ui/progress"
